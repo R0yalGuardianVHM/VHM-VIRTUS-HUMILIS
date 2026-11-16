@@ -116,6 +116,24 @@
 
     .header-actions { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
 
+    .gtranslate_wrapper select.gt_selector {
+      background: var(--panel-inner) !important;
+      color: var(--gold-bright) !important;
+      border: 1px solid rgba(212, 175, 55, 0.32) !important;
+      border-radius: 7px !important;
+      padding: 7px 10px !important;
+      font-family: 'Inter', system-ui, sans-serif !important;
+      font-size: 0.82rem !important;
+      font-weight: 600 !important;
+      outline: none !important;
+      cursor: pointer;
+      max-width: 175px;
+    }
+    .gtranslate_wrapper select.gt_selector:hover,
+    .gtranslate_wrapper select.gt_selector:focus {
+      border-color: var(--gold) !important;
+    }
+
     button {
       background: rgba(28, 28, 36, 0.94);
       color: var(--text);
@@ -568,7 +586,7 @@
       <div class="brand-box">
         <img id="brandCrest" class="brand-crest" alt="VHM Alliance Crest" />
         <div class="brand-title">
-          <h1>VHM Hive Planner</h1>
+          <h1><span class="notranslate">[VHM]</span> Hive Planner</h1>
           <p>Virtus Humilis • Alliance Tactical Layout</p>
         </div>
       </div>
@@ -576,6 +594,7 @@
         <button class="gold-btn" id="shareBtn">Copy Share Link</button>
         <button id="exportBtn">Export JSON</button>
         <button id="importBtn">Import JSON</button>
+        <div class="gtranslate_wrapper"></div>
       </div>
     </header>
 
@@ -654,7 +673,7 @@
         </div>
 
         <div class="inspector-box">
-          <div class="section-title">Selected Item <span id="selectedCoords" style="float:right; color:var(--muted);"></span></div>
+          <div class="section-title">Selected Item <span id="selectedCoords" class="notranslate" style="float:right; color:var(--muted);"></span></div>
           <div id="inspectorEmpty" style="font-size:0.79rem; color:var(--muted); line-height:1.4;">
             Tap any keep or building to rename, resize, or delete it. Drag keeps to move, or use <strong>Pan</strong> when zoomed in.
           </div>
@@ -688,7 +707,7 @@
 
       <section class="board-panel">
         <div class="fullview-bar" id="fullViewBar">
-          <span class="fullview-title" id="fullViewTitle">[VHM] Hive Plan</span>
+          <span class="fullview-title notranslate" id="fullViewTitle">[VHM] Hive Plan</span>
           <div class="fullview-actions">
             <button id="fullViewPngBtn">⬇ Save PNG</button>
             <button class="gold-btn" id="exitFullViewBtn">✕ Exit Full View</button>
@@ -730,7 +749,7 @@
         </div>
 
         <div class="board-scroll" id="boardScroll">
-          <div class="grid-frame">
+          <div class="grid-frame notranslate">
             <div class="axis-corner"></div>
             <div class="axis-x" id="axisX"></div>
             <div class="axis-y" id="axisY"></div>
@@ -742,10 +761,10 @@
 
         <div class="stats-bar">
           <div class="stats-group" id="statsGroup"></div>
-          <div id="coordsReadout" style="font-family:monospace; color:var(--gold-bright);">Cursor: (–, –)</div>
+          <div id="coordsReadout" class="notranslate" style="font-family:monospace; color:var(--gold-bright);">Cursor: (–, –)</div>
         </div>
 
-        <div class="roster-strip" id="rosterStrip"></div>
+        <div class="roster-strip notranslate" id="rosterStrip"></div>
       </section>
     </div>
   </div>
@@ -1691,5 +1710,16 @@
       render();
     })();
   </script>
+
+  <script>
+    window.gtranslateSettings = {
+      default_language: "en",
+      native_language_names: true,
+      detect_browser_language: true,
+      wrapper_selector: ".gtranslate_wrapper",
+      select_language_label: "🌐 Language"
+    };
+  </script>
+  <script src="https://cdn.gtranslate.net/widgets/latest/dropdown.js" defer></script>
 </body>
 </html>
