@@ -21,9 +21,7 @@
             --muted: #a39b8b;
         }
 
-        * {
-            box-sizing: border-box;
-        }
+        * { box-sizing: border-box; }
 
         html, body {
             margin: 0 !important;
@@ -36,7 +34,6 @@
             position: relative;
         }
 
-        /* Matching Background Watermark & Vignette */
         body::before {
             content: "";
             position: fixed;
@@ -67,6 +64,35 @@
             max-width: 960px;
             margin: 0 auto;
             box-sizing: border-box;
+        }
+
+        .translate-box {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-bottom: 16px;
+            width: 100%;
+            text-align: center;
+        }
+
+        .gtranslate_wrapper select.gt_selector {
+            background-color: var(--panel-inner) !important;
+            color: var(--gold-bright) !important;
+            border: 1px solid var(--border) !important;
+            border-radius: 8px !important;
+            padding: 10px 14px !important;
+            font-family: 'Inter', system-ui, sans-serif !important;
+            font-size: 13px !important;
+            outline: none !important;
+            font-weight: 600 !important;
+            min-width: 220px;
+            cursor: pointer;
+            transition: border-color 0.15s ease;
+        }
+
+        .gtranslate_wrapper select.gt_selector:hover,
+        .gtranslate_wrapper select.gt_selector:focus {
+            border-color: var(--gold) !important;
         }
 
         .card {
@@ -110,7 +136,6 @@
             font-weight: 600;
         }
 
-        /* Form Layouts & Inputs */
         .input-label {
             display: block;
             font-family: 'Cinzel', Georgia, serif;
@@ -160,7 +185,6 @@
             color: var(--gold-bright);
         }
 
-        /* Interactive Segment Toggles */
         .toggle-btn {
             width: 100%;
             background: var(--panel-inner);
@@ -189,7 +213,6 @@
             box-shadow: 0 0 14px rgba(212, 175, 55, 0.22);
         }
 
-        /* Architecture Grid Matrix */
         .table-container {
             overflow-x: auto;
             background: var(--panel-bg);
@@ -249,9 +272,7 @@
             border-bottom: 1px solid rgba(212, 175, 55, 0.09);
         }
 
-        tbody tr:last-child td {
-            border-bottom: none;
-        }
+        tbody tr:last-child td { border-bottom: none; }
 
         .row-fight {
             background-color: rgba(212, 175, 55, 0.12);
@@ -259,24 +280,10 @@
             font-weight: 700;
         }
 
-        .row-layer td {
-            opacity: 0.58;
-        }
-
-        .text-right {
-            text-align: right;
-        }
-
-        /* Custom Colors per Variant */
-        .tc-tier {
-            color: var(--muted);
-            font-weight: 700;
-        }
-
-        .row-fight .tc-tier {
-            color: var(--gold-bright);
-        }
-
+        .row-layer td { opacity: 0.58; }
+        .text-right { text-align: right; }
+        .tc-tier { color: var(--muted); font-weight: 700; }
+        .row-fight .tc-tier { color: var(--gold-bright); }
         .tc-ranged { color: #7dd3fc; }
         .tc-mounted { color: #f3d27a; }
         .tc-ground { color: #6ee7b7; }
@@ -285,13 +292,12 @@
 </head>
 <body>
 <div class="app-bg">
-    <!-- Header Block -->
+    <div class="translate-box"><div class="gtranslate_wrapper"></div></div>
     <header class="card header-card">
         <h1 class="title">Royals protective march Calculator</h1>
         <div class="subtitle">Alliance Tactical Deployments</div>
     </header>
 
-    <!-- Controls Input Interface Box -->
     <div class="card">
         <div style="margin-bottom: 14px;">
             <label class="input-label">Matrix Setup</label>
@@ -327,11 +333,10 @@
         </div>
     </div>
 
-    <!-- Output Metrics Grid Visualizer -->
     <div class="table-container">
         <div class="table-header">
             <span class="table-title">CALCULATED DEPLOYMENT ARCHITECTURE</span>
-            <span id="ratioInfo" class="ratio-badge">35% / 45% / 20%</span>
+            <span id="ratioInfo" class="ratio-badge notranslate">35% / 45% / 20%</span>
         </div>
         <div style="overflow-x: auto;">
             <table>
@@ -344,9 +349,7 @@
                         <th class="text-right tc-siege">Siege</th>
                     </tr>
                 </thead>
-                <tbody id="matrixDisplay">
-                    <!-- Javascript populates data values smoothly -->
-                </tbody>
+                <tbody id="matrixDisplay" class="notranslate"></tbody>
             </table>
         </div>
     </div>
@@ -419,5 +422,15 @@ function runCalc() {
 
 setTimeout(runCalc, 200);
 </script>
+<script>
+window.gtranslateSettings = {
+    default_language: "en",
+    native_language_names: true,
+    detect_browser_language: true,
+    wrapper_selector: ".gtranslate_wrapper",
+    select_language_label: "🌐 Language"
+};
+</script>
+<script src="https://cdn.gtranslate.net/widgets/latest/dropdown.js" defer></script>
 </body>
 </html>
