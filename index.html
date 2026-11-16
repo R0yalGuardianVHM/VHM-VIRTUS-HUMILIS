@@ -122,6 +122,13 @@
       text-transform: uppercase;
     }
 
+    .header-right {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 10px;
+    }
+
     /* Navigation Tabs */
     .hub-tabs {
       display: flex;
@@ -160,6 +167,26 @@
       border-color: var(--gold);
       color: var(--gold-bright);
       box-shadow: 0 0 14px rgba(212, 175, 55, 0.22);
+    }
+
+    /* Language Selector Styling */
+    .gtranslate_wrapper select.gt_selector {
+      background: var(--panel-inner) !important;
+      color: var(--gold-bright) !important;
+      border: 1px solid var(--border) !important;
+      border-radius: 8px !important;
+      padding: 8px 10px !important;
+      font-family: 'Inter', system-ui, sans-serif !important;
+      font-size: 0.78rem !important;
+      font-weight: 600 !important;
+      outline: none !important;
+      cursor: pointer;
+      max-width: 175px;
+    }
+
+    .gtranslate_wrapper select.gt_selector:hover,
+    .gtranslate_wrapper select.gt_selector:focus {
+      border-color: var(--gold) !important;
     }
 
     /* Main Workspace */
@@ -292,6 +319,7 @@
       .hub-header {
         padding: 10px 12px;
       }
+      .header-right,
       .hub-tabs {
         width: 100%;
       }
@@ -306,17 +334,20 @@
       <div class="brand-box">
         <img id="hubCrest" class="brand-crest" src="VHM-logo.png" alt="VHM Alliance Crest" />
         <div class="brand-title">
-          <h1>[VHM] Virtus Humilis</h1>
+          <h1 class="notranslate">[VHM] Virtus Humilis</h1>
           <p>Alliance Tactical Hub</p>
         </div>
       </div>
 
-      <nav class="hub-tabs" id="hubTabs">
-        <button class="tab-btn active" onclick="showHome(this)">Home</button>
-        <button class="tab-btn" onclick="openTool('VHM-march-calculator.html', this)">March Calculator</button>
-        <button class="tab-btn" onclick="openTool('VHM-protective-calculator.html', this)">Protective Calculator</button>
-        <button class="tab-btn" onclick="openTool('hive-planner.html', this)">Hive Planner</button>
-      </nav>
+      <div class="header-right">
+        <nav class="hub-tabs" id="hubTabs">
+          <button class="tab-btn active" onclick="showHome(this)">Home</button>
+          <button class="tab-btn" onclick="openTool('VHM-march-calculator.html', this)">March Calculator</button>
+          <button class="tab-btn" onclick="openTool('VHM-protective-calculator.html', this)">Protective Calculator</button>
+          <button class="tab-btn" onclick="openTool('hive-planner.html', this)">Hive Planner</button>
+        </nav>
+        <div class="gtranslate_wrapper"></div>
+      </div>
     </div>
   </header>
 
@@ -325,7 +356,7 @@
     <!-- Home / Landing Tab -->
     <section id="home-view">
       <img id="heroCrest" class="hero-crest" src="VHM-logo.png" alt="VHM Alliance Crest" />
-      <h2 class="hero-title">[VHM] Virtus Humilis</h2>
+      <h2 class="hero-title notranslate">[VHM] Virtus Humilis</h2>
       <div class="hero-motto">Virtus Humilis • Strength &amp; Precision</div>
       <p class="hero-subtitle">
         Official alliance command hub for [VHM] Virtus Humilis. Choose a tool below or switch tabs anytime from the top bar.
@@ -343,7 +374,7 @@
         <div class="card" onclick="triggerTab(2)">
           <div>
             <h3>Protective Calculator</h3>
-            <p> (under testing) Newmeta style protective troop march calculator!.</p>
+            <p>Check safe resource limits, warehouse thresholds, and defensive readiness.</p>
           </div>
           <span class="card-cta">Open Calculator →</span>
         </div>
@@ -351,7 +382,7 @@
         <div class="card" onclick="triggerTab(3)">
           <div>
             <h3>Hive Planner</h3>
-            <p> Hiveplan keep placements, Chalons / Glory layouts, alliance buildings, and BF grids.</p>
+            <p>Plan keep placements, Chalons / Glory layouts, alliance buildings, and BF grids.</p>
           </div>
           <span class="card-cta">Open Planner →</span>
         </div>
@@ -359,7 +390,7 @@
     </section>
 
     <!-- Embedded Pages -->
-    <iframe id="tool-frame" title="VHM Alliance Tool"></iframe>
+    <iframe id="tool-frame" title="VHM Alliance Tool" allowfullscreen></iframe>
   </main>
 
   <script>
@@ -410,6 +441,32 @@
     function triggerTab(index) {
       tabButtons[index].click();
     }
+
+    // Sync language change from Hub into the active iframe
+    document.addEventListener('change', (e) => {
+      if (e.target && e.target.classList.contains('gt_selector')) {
+        if (toolFrame.style.display === 'block' && toolFrame.getAttribute('src')) {
+          setTimeout(() => {
+            try {
+              toolFrame.contentWindow.location.reload();
+            } catch (err) {
+              toolFrame.src = toolFrame.getAttribute('src');
+            }
+          }, 250);
+        }
+      }
+    });
   </script>
+
+  <script>
+    window.gtranslateSettings = {
+      default_language: "en",
+      native_language_names: true,
+      detect_browser_language: true,
+      wrapper_selector: ".gtranslate_wrapper",
+      select_language_label: "🌐 Language"
+    };
+  </script>
+  <script src="https://cdn.gtranslate.net/widgets/latest/dropdown.js" defer></script>
 </body>
 </html>
