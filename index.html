@@ -5,16 +5,21 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>[VHM] Virtus Humilis — Alliance Hub</title>
   <link rel="icon" type="image/png" href="VHM-logo.png" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
   <style>
     :root {
-      --bg-dark: #0f1117;
-      --bg-panel: #181c24;
-      --bg-hover: #242a36;
-      --accent: #e0537c;
-      --accent-glow: rgba(224, 83, 124, 0.25);
-      --text-main: #f3f4f6;
-      --text-muted: #9ca3af;
-      --border: #2d3340;
+      --vhm-logo: url('VHM-logo.png');
+      --bg-obsidian: #070709;
+      --panel-bg: rgba(16, 16, 21, 0.88);
+      --panel-inner: rgba(10, 10, 14, 0.9);
+      --gold: #d4af37;
+      --gold-bright: #f3d27a;
+      --gold-dim: rgba(212, 175, 55, 0.28);
+      --border: rgba(212, 175, 55, 0.25);
+      --text: #f3efe6;
+      --muted: #a39b8b;
     }
 
     * {
@@ -24,103 +29,148 @@
     }
 
     body {
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-      background-color: var(--bg-dark);
-      color: var(--text-main);
+      font-family: 'Inter', system-ui, -apple-system, sans-serif;
+      background-color: var(--bg-obsidian);
+      color: var(--text);
       display: flex;
       flex-direction: column;
       height: 100vh;
       height: 100dvh;
       overflow: hidden;
+      position: relative;
     }
 
-    /* Top Header & Persistent Logo */
-    header {
-      background-color: var(--bg-panel);
-      border-bottom: 1px solid var(--border);
-      padding: 10px 16px 0 16px;
+    /* Matching Background Watermark & Vignette */
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      z-index: -2;
+      background-image: var(--vhm-logo);
+      background-position: center center;
+      background-size: cover;
+      background-repeat: no-repeat;
+      filter: contrast(1.08) brightness(0.4);
+    }
+
+    body::after {
+      content: "";
+      position: fixed;
+      inset: 0;
+      z-index: -1;
+      background: radial-gradient(circle at center, rgba(10, 10, 14, 0.45) 0%, rgba(5, 5, 7, 0.93) 85%);
+      pointer-events: none;
+    }
+
+    /* Persistent Top Bar */
+    .hub-header {
+      background: linear-gradient(135deg, rgba(22, 20, 26, 0.95), rgba(10, 10, 14, 0.97));
+      border-bottom: 1px solid var(--gold-dim);
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.65), inset 0 1px 0 rgba(243, 210, 122, 0.15);
+      backdrop-filter: blur(10px);
+      padding: 10px 16px;
       flex-shrink: 0;
+      z-index: 20;
     }
 
-    .brand-bar {
+    .hub-header-inner {
+      max-width: 1380px;
+      margin: 0 auto;
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+    }
+
+    .brand-box {
       display: flex;
       align-items: center;
       gap: 12px;
-      margin-bottom: 10px;
     }
 
-    .brand-logo {
-      width: 40px;
-      height: 40px;
+    .brand-crest {
+      width: 46px;
+      height: 46px;
       border-radius: 50%;
+      border: 2px solid var(--gold);
+      background-color: #0b0b0f;
       object-fit: cover;
-      border: 2px solid var(--accent);
-      background-color: #fff;
+      box-shadow: 0 0 16px rgba(212, 175, 55, 0.35);
+      flex-shrink: 0;
+      display: block;
     }
 
-    .brand-text h1 {
-      font-size: 1.1rem;
+    .brand-title h1 {
+      font-family: 'Cinzel', Georgia, serif;
+      font-size: clamp(1rem, 2.5vw, 1.35rem);
       font-weight: 700;
-      letter-spacing: 0.5px;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      background: linear-gradient(180deg, #fff5d6 0%, #d4af37 55%, #9c7422 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
       line-height: 1.2;
     }
 
-    .brand-tag {
-      color: var(--accent);
-      margin-right: 4px;
-    }
-
-    .brand-text p {
-      font-size: 0.75rem;
-      color: var(--text-muted);
+    .brand-title p {
+      margin-top: 2px;
+      font-family: 'Cinzel', Georgia, serif;
+      font-size: 0.68rem;
+      letter-spacing: 0.18em;
+      color: var(--muted);
+      text-transform: uppercase;
     }
 
     /* Navigation Tabs */
-    .tabs {
+    .hub-tabs {
       display: flex;
-      gap: 6px;
+      gap: 8px;
       overflow-x: auto;
       scrollbar-width: none;
+      padding-bottom: 2px;
     }
 
-    .tabs::-webkit-scrollbar {
+    .hub-tabs::-webkit-scrollbar {
       display: none;
     }
 
     .tab-btn {
-      background: transparent;
-      border: none;
-      border-bottom: 3px solid transparent;
-      color: var(--text-muted);
-      padding: 10px 14px;
-      font-size: 0.9rem;
-      font-weight: 600;
+      background: var(--panel-inner);
+      color: var(--text);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 8px 14px;
+      font-family: 'Cinzel', Georgia, serif;
+      font-size: 0.8rem;
+      font-weight: 700;
+      letter-spacing: 0.05em;
       cursor: pointer;
       white-space: nowrap;
-      transition: all 0.2s ease;
-      border-radius: 6px 6px 0 0;
+      transition: all 0.15s ease;
     }
 
     .tab-btn:hover {
-      color: var(--text-main);
-      background-color: var(--bg-hover);
+      background: rgba(45, 42, 54, 0.96);
+      border-color: var(--gold);
     }
 
     .tab-btn.active {
-      color: var(--text-main);
-      border-bottom-color: var(--accent);
-      background-color: rgba(224, 83, 124, 0.1);
+      background: linear-gradient(135deg, rgba(212, 175, 55, 0.25), rgba(22, 20, 26, 0.96));
+      border-color: var(--gold);
+      color: var(--gold-bright);
+      box-shadow: 0 0 14px rgba(212, 175, 55, 0.22);
     }
 
-    /* Main Content Area */
+    /* Main Workspace */
     main {
       flex: 1;
+      min-height: 0;
       position: relative;
       width: 100%;
-      overflow: hidden;
     }
 
-    /* Home / Main Landing Tab */
+    /* Home Tab Landing Page */
     #home-view {
       height: 100%;
       overflow-y: auto;
@@ -129,67 +179,104 @@
       align-items: center;
       justify-content: center;
       text-align: center;
-      padding: 24px 16px;
+      padding: 28px 16px;
     }
 
-    .hero-logo {
-      width: 120px;
-      height: 120px;
+    .hero-crest {
+      width: 124px;
+      height: 124px;
       border-radius: 50%;
+      border: 2px solid var(--gold);
+      background-color: #0b0b0f;
       object-fit: cover;
-      border: 3px solid var(--accent);
-      box-shadow: 0 0 25px var(--accent-glow);
+      box-shadow: 0 0 28px rgba(212, 175, 55, 0.4);
       margin-bottom: 18px;
-      background-color: #fff;
     }
 
     .hero-title {
-      font-size: 1.8rem;
+      font-family: 'Cinzel', Georgia, serif;
+      font-size: clamp(1.5rem, 4vw, 2.2rem);
       font-weight: 800;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      background: linear-gradient(180deg, #fff5d6 0%, #d4af37 55%, #9c7422 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
       margin-bottom: 6px;
     }
 
+    .hero-motto {
+      font-family: 'Cinzel', Georgia, serif;
+      font-size: 0.78rem;
+      letter-spacing: 0.22em;
+      color: var(--gold-bright);
+      text-transform: uppercase;
+      margin-bottom: 14px;
+    }
+
     .hero-subtitle {
-      color: var(--text-muted);
-      max-width: 480px;
+      color: var(--muted);
+      max-width: 520px;
       margin-bottom: 28px;
-      font-size: 0.95rem;
-      line-height: 1.5;
+      font-size: 0.92rem;
+      line-height: 1.55;
     }
 
     .tool-cards {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
       gap: 14px;
       width: 100%;
-      max-width: 780px;
+      max-width: 920px;
     }
 
     .card {
-      background-color: var(--bg-panel);
+      background: var(--panel-bg);
       border: 1px solid var(--border);
       border-radius: 12px;
       padding: 20px;
       text-align: left;
       cursor: pointer;
-      transition: transform 0.15s ease, border-color 0.2s ease;
+      backdrop-filter: blur(10px);
+      box-shadow: 0 12px 28px rgba(0, 0, 0, 0.55);
+      transition: transform 0.15s ease, border-color 0.2s ease, box-shadow 0.2s ease;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      gap: 12px;
     }
 
     .card:hover {
       transform: translateY(-3px);
-      border-color: var(--accent);
+      border-color: var(--gold);
+      box-shadow: 0 14px 30px rgba(0, 0, 0, 0.7), 0 0 18px rgba(212, 175, 55, 0.2);
     }
 
     .card h3 {
-      font-size: 1.05rem;
+      font-family: 'Cinzel', Georgia, serif;
+      font-size: 1.02rem;
+      letter-spacing: 0.06em;
+      color: var(--gold-bright);
       margin-bottom: 6px;
-      color: var(--text-main);
+      text-transform: uppercase;
     }
 
     .card p {
-      font-size: 0.85rem;
-      color: var(--text-muted);
-      line-height: 1.4;
+      font-size: 0.84rem;
+      color: var(--muted);
+      line-height: 1.45;
+    }
+
+    .card-cta {
+      display: inline-block;
+      align-self: flex-start;
+      background: linear-gradient(180deg, #d4af37, #9e781f);
+      color: #110e07;
+      border: 1px solid #f3d27a;
+      border-radius: 7px;
+      padding: 6px 12px;
+      font-size: 0.78rem;
+      font-weight: 700;
     }
 
     /* Embedded Tool Frame */
@@ -198,83 +285,124 @@
       height: 100%;
       border: none;
       display: none;
-      background-color: #fff;
+      background-color: var(--bg-obsidian);
+    }
+
+    @media (max-width: 760px) {
+      .hub-header {
+        padding: 10px 12px;
+      }
+      .hub-tabs {
+        width: 100%;
+      }
     }
   </style>
 </head>
 <body>
 
-  <!-- Persistent Header (Visible on Main Page + All Tabs) -->
-  <header>
-    <div class="brand-bar">
-      <img src="VHM-logo.png" alt="VHM Logo" class="brand-logo" />
-      <div class="brand-text">
-        <h1><span class="brand-tag">[VHM]</span>Virtus Humilis</h1>
-        <p>Alliance Tools &amp; Calculators</p>
+  <!-- Persistent Header (Visible on Main Page & Every Tab) -->
+  <header class="hub-header">
+    <div class="hub-header-inner">
+      <div class="brand-box">
+        <img id="hubCrest" class="brand-crest" src="VHM-logo.png" alt="VHM Alliance Crest" />
+        <div class="brand-title">
+          <h1>[VHM] Virtus Humilis</h1>
+          <p>Alliance Tactical Hub</p>
+        </div>
       </div>
-    </div>
 
-    <nav class="tabs">
-      <button class="tab-btn active" onclick="showHome(this)">🏠 Home</button>
-      <button class="tab-btn" onclick="openTool('VHM-march-calculator.html', this)">⚔️ March Calculator</button>
-      <button class="tab-btn" onclick="openTool('VHM-protective-calculator.html', this)">🛡️ Protective Calculator</button>
-      <button class="tab-btn" onclick="openTool('hive-planner.html', this)">📍 Hive Planner</button>
-    </nav>
+      <nav class="hub-tabs" id="hubTabs">
+        <button class="tab-btn active" onclick="showHome(this)">Home</button>
+        <button class="tab-btn" onclick="openTool('VHM-march-calculator.html', this)">March Calculator</button>
+        <button class="tab-btn" onclick="openTool('VHM-protective-calculator.html', this)">Protective Calculator</button>
+        <button class="tab-btn" onclick="openTool('hive-planner.html', this)">Hive Planner</button>
+      </nav>
+    </div>
   </header>
 
   <!-- Main Content -->
   <main>
-    <!-- Home Tab -->
+    <!-- Home / Landing Tab -->
     <section id="home-view">
-      <img src="VHM-logo.png" alt="VHM Logo" class="hero-logo" />
-      <h2 class="hero-title"><span class="brand-tag">[VHM]</span> Virtus Humilis</h2>
+      <img id="heroCrest" class="hero-crest" src="VHM-logo.png" alt="VHM Alliance Crest" />
+      <h2 class="hero-title">[VHM] Virtus Humilis</h2>
+      <div class="hero-motto">Virtus Humilis • Strength &amp; Precision</div>
       <p class="hero-subtitle">
-        Welcome to the official [VHM] Virtus Humilis alliance hub. Select any tool below or use the tabs above to get started.
+        Official alliance command hub for [VHM] Virtus Humilis. Choose a tool below or switch tabs anytime from the top bar.
       </p>
 
       <div class="tool-cards">
         <div class="card" onclick="triggerTab(1)">
-          <h3>⚔️ March Calculator</h3>
-          <p>Calculate march formations, troop ratios, and timings for rallies and attacks.</p>
+          <div>
+            <h3>March Calculator</h3>
+            <p>Calculate march formations, troop ratios, and rally capacities with precision.</p>
+          </div>
+          <span class="card-cta">Open Calculator →</span>
         </div>
 
         <div class="card" onclick="triggerTab(2)">
-          <h3>🛡️ Protective Calculator</h3>
-          <p>Check safe resource capacities, shield requirements, and defensive numbers.</p>
+          <div>
+            <h3>Protective Calculator</h3>
+            <p>Check safe resource limits, warehouse thresholds, and defensive readiness.</p>
+          </div>
+          <span class="card-cta">Open Calculator →</span>
         </div>
 
         <div class="card" onclick="triggerTab(3)">
-          <h3>📍 Hive Planner</h3>
-          <p>Plan and organize alliance hive coordinates and territory layout.</p>
+          <div>
+            <h3>Hive Planner</h3>
+            <p>Plan keep placements, Chalons / Glory layouts, alliance buildings, and BF grids.</p>
+          </div>
+          <span class="card-cta">Open Planner →</span>
         </div>
       </div>
     </section>
 
-    <!-- Other HTML Files Load Here -->
+    <!-- Embedded Pages -->
     <iframe id="tool-frame" title="VHM Alliance Tool"></iframe>
   </main>
 
   <script>
-    const homeView = document.getElementById("home-view");
-    const toolFrame = document.getElementById("tool-frame");
-    const tabButtons = document.querySelectorAll(".tab-btn");
+    // Auto-detect logo casing/format & sync background watermark
+    const hubCrest = document.getElementById('hubCrest');
+    const heroCrest = document.getElementById('heroCrest');
+    const logoCandidates = ['VHM-logo.png', 'vhm-logo.png', 'VHM-logo.jpg', 'vhm-logo.jpg', 'VHM-logo.webp'];
+    let logoIdx = 0;
+
+    hubCrest.addEventListener('load', () => {
+      const validSrc = hubCrest.getAttribute('src');
+      heroCrest.src = validSrc;
+      document.documentElement.style.setProperty('--vhm-logo', `url('${validSrc}')`);
+    });
+
+    hubCrest.addEventListener('error', () => {
+      logoIdx++;
+      if (logoIdx < logoCandidates.length) {
+        hubCrest.src = logoCandidates[logoIdx];
+      }
+    });
+
+    // Tab Navigation
+    const homeView = document.getElementById('home-view');
+    const toolFrame = document.getElementById('tool-frame');
+    const tabButtons = document.querySelectorAll('#hubTabs .tab-btn');
 
     function setActiveTab(activeBtn) {
-      tabButtons.forEach((btn) => btn.classList.remove("active"));
-      activeBtn.classList.add("active");
+      tabButtons.forEach(btn => btn.classList.remove('active'));
+      activeBtn.classList.add('active');
     }
 
     function showHome(btn) {
       setActiveTab(btn);
-      toolFrame.style.display = "none";
-      homeView.style.display = "flex";
+      toolFrame.style.display = 'none';
+      homeView.style.display = 'flex';
     }
 
     function openTool(fileName, btn) {
       setActiveTab(btn);
-      homeView.style.display = "none";
-      toolFrame.style.display = "block";
-      if (toolFrame.getAttribute("src") !== fileName) {
+      homeView.style.display = 'none';
+      toolFrame.style.display = 'block';
+      if (toolFrame.getAttribute('src') !== fileName) {
         toolFrame.src = fileName;
       }
     }
